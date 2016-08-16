@@ -1,0 +1,27 @@
+{
+  "name": "08-WeatherApp",
+  "homepage": "https://github.com/dng-vcnt/08-WeatherApp",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "angular-toastr": "2.0.0"
+  }
+}
