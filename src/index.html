@@ -1,141 +1,165 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="weatherApp">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Origin Weather App</title>
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
-    <!-- endbower -->
-    <!-- inject:css -->
-    <!-- endinject -->
+  <meta charset="UTF-8">
+  <title>Origin Weather App</title>
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+  <!-- endbower -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- endinject -->
 </head>
 
 <body ng-controller="WeatherController as weather">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 well well-lg">
-                <h1>Origin Weather Application</h1>
-                <h4>Always know if you'll need an umbrella!</h4>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 jumbotron">
+        <h1>Origin Weather Application</h1>
+        <h4>Always know if you'll need an umbrella!</h4>
+      </div>
+    </div>
+    <!-- Button Group End -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="btn-group" role="group">
+          <button class="btn btn-primary" ng-click="weather.getWeather('sandiego')">
+            San Diego</button>
+          <button class="btn btn-primary" ng-click="weather.getWeather('newyork')">
+            New York</button>
+          <button class="btn btn-primary" ng-click="weather.getWeather('washingtondc')">
+            Washington D.C.</button>
+          <button class="btn btn-primary" ng-click="weather.getWeather('london')">
+            London</button>
+          <button class="btn btn-primary" ng-click="weather.getWeather('tokyo')">
+            Tokyo</button>
         </div>
-        <!-- Button Group End -->
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="btn-group" role="group">
-                    <button class="btn btn-primary" ng-click="weather.getWeather('sandiego')">San Diego</button>
-                    <button class="btn btn-primary" ng-click="weather.getWeather('newyork')">New York</button>
-                    <button class="btn btn-primary" ng-click="weather.getWeather('washingtondc')">Washington D.C.</button>
-                    <button class="btn btn-primary" ng-click="weather.getWeather('london')">London</button>
-                    <button class="btn btn-primary" ng-click="weather.getWeather('tokyo')">Tokyo</button>
+      </div>
+    </div>
+    <!-- Button Group End -->
+    <!-- Search Start -->
+    <div class="row">
+      <div class="col-xs-12">
+        <form ng-submit="weather.getWeather(weather.cityName)">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="weather.cityName">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">Go!</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Search End -->
+    <br>
+    <!-- City Information Panel Start -->
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">City information</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <img ng-src="http://openweathermap.org/img/w/{{weather.cityData.data.weather[0].icon}}.png">
+                <h3>{{weather.cityData.data.name}}</h3>
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-xs-12">
+                <h6>Lat/Long: {{weather.cityData.data.coord.lat}},
+                              {{weather.cityData.data.coord.lon}}</h6>
+                <hr>
+              </div>
+            </div>
+          </div>
+            <div class="row text-center">
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label>Temperature (F)</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.main.temp}}F
+                  </p>
                 </div>
+                <div class="form-group">
+                  <label>Lowest Temp (F)</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.main.temp_min}}F
+                  </p>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label>Pressure</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.main.pressure}}hPa
+                  </p>
+                </div>
+                <div class="form-group">
+                  <label>Highest Temp (F)</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.main.temp_max}}F
+                  </p>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label>Humidity</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.main.humidity}}%
+                  </p>
+                </div>
+                <div class="form-group">
+                  <label>Wind Speed</label>
+                  <p class="text-success">
+                    {{weather.cityData.data.wind.speed}}mph
+                  </p>
+                </div>
+              </div>
             </div>
         </div>
-        <!-- Button Group End -->
-        <!-- Search Start -->
-        <div class="row">
-            <div class="col-xs-12">
-                <form ng-submit="weather.getWeather(weather.cityName)">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="weather.cityName">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">Go!</button>
-                        </span>
-                    </div>
-                </form>
-            </div>
+        <!-- Panel City Info End -->
+      </div>
+      <!-- Column -->
+      <!-- Search History Start -->
+      <div class="col-xs-12 col-md-6">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Search History</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="city in weather.cityHistory">
+                  <td width="80%">{{city.name}}</td>
+                  <td width="20%">{{city.time | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Panel Body End -->
         </div>
-        <!-- Search End -->
-        <br>
-        <!-- City Information Panel Start -->
-        <div class="row">
-            <div class="col-xs-12 col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">City information</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-6 text-right">
-                                <img ng-src="http://openweathermap.org/img/w/{{weather.cityData.data.weather[0].icon}}.png">
-                            </div>
-                            <div class="col-xs-6">
-                                <h3>{{weather.cityData.data.name}}</h3>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <h6>Lat/Long: {{weather.cityData.data.coord.lat}},
-                                          {{weather.cityData.data.coord.lon}}</h6>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row text-center">
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Temperature (F)</label>
-                                    <p>{{weather.cityData.data.main.temp}}</p>
-                                </div>
-                                <div class="form-group">
-                                   <label>Lowest Temp (F)</label>
-                                   <p>{{weather.cityData.data.main.temp_min}}</p> 
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Pressure</label>
-                                    <p>{{weather.cityData.data.main.pressure}}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label>Highest Temp (F)</label>
-                                    <p>{{weather.cityData.data.main.temp_max}}</p>
-                                </div>
-                            </div>
-                            <div class="col-xs-4">
-                                <div class="form-group">
-                                    <label>Humidity</label>
-                                    <p>{{weather.cityData.data.main.humidity}}</p>
-                                </div>
-                                <div class="form-group">
-                                    <label>Wind Speed</label>
-                                    <p>{{weather.cityData.data.wind.speed}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- Panel Body End -->
-                </div> <!-- Panel City Info End -->
-            </div> <!-- Column -->
-
-            <!-- Search History Start -->
-            <div class="col-xs-12 col-md-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Search History</h3>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr ng-repeat="city in weather.cityHistory">
-                                    <td width="70%">{{city.name}}</td>
-                                    <td width="30%">{{city.time | date:'MM/dd/yyyy HH:mm:ss'}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!-- Panel Body End -->
-                </div><!-- Panel Info End -->
-            </div><!-- Column End -->
-        </div> <!-- Row End -->
-    </div> <!-- Container End -->
-    <!-- bower:js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
-    <!-- endbower -->
-    <!-- inject:js -->
-    <script src="js/app.module.js"></script>
-    <script src="js/weather.controller.js"></script>
-    <script src="js/weather.factory.js"></script>
-    <!-- endinject -->
+        <!-- Panel Info End -->
+      </div>
+      <!-- Column End -->
+    </div>
+    <!-- Row End -->
+  </div>
+  <!-- Container End -->
+  <!-- bower:js -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+  <!-- endbower -->
+  <!-- inject:js -->
+  <script src="js/app.module.js"></script>
+  <script src="js/weather.controller.js"></script>
+  <script src="js/weather.factory.js"></script>
+  <!-- endinject -->
 </body>
 
 </html>
