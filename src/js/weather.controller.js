@@ -24,7 +24,7 @@
         function addHistory() {
         	// Push to search history
         	vm.cityHistory.push({
-        		"name": vm.cityData.data.name,
+        		"name": vm.cityData.name,
         		"time": Date.now() 
         	});
         }
@@ -41,11 +41,6 @@
         			vm.cityData = data;
         			addHistory();
                     console.log(vm.cityData);
-                    if (vm.cityData.data.name == null){ 
-                        toastr.error("vm.cityData.data.message", "vm.cityData.data.cod");
-                    } else {
-                        toastr.success("Data Received!", "Congratulations!");
-                    }
         		},
         		function(err){
         			// Upon error

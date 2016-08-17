@@ -5,10 +5,10 @@
         .module('weatherApp')
         .factory('weatherFactory', weatherFactory);
 
-    weatherFactory.$inject = ['$http'];
+    weatherFactory.$inject = ['$http', '$q', 'keys'];
 
     /* @ngInject */
-    function weatherFactory($http) {
+    function weatherFactory($http, $q, keys) {
         var service = {
             getCityWeather: getCityWeather
         };
@@ -17,8 +17,25 @@
         ////////////////
         // Get weather data from openweathermap.org API
         function getCityWeather(city) {
-        	var promise = $http.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&APPID=2e688cdfc7121a9f0558324b8e519443'); 
-        	return promise;
+            var defer = $q.defer();
+        	$http.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&APPID=' + keys.weather).then(
+                function(response) {
+                    console.log(response);
+                    if (response.data.cod !== 200) {
+                        defer.reject(response.data.message);
+                    }
+                        defer.resolve(response.data);
+                },
+                function(error) {
+                    console.log(error);
+                    if (error.status === -1) {
+                        defer.reject("An unexpected error has occured.");
+                    }
+                }
+            ); 
+        	return defer.promise;
         }
     }
 })();
+
+

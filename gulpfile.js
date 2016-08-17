@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     inject = require('gulp-inject'),    
     open = require('gulp-open'); 
 
-var jsSources = ['src/js/*.js'],
+var jsSources = ['src/js/**/*.js'],
     cssSources = ['src/**/*.css'],
     htmlSources = ['**/*.html'];
 
@@ -16,7 +16,7 @@ gulp.task('watch', function() {
     gulp.watch(htmlSources, ['html']);
 });
 
-var paths = ['./src/bower_components/','./src/js/*.js','./src/css/**/*.css'];
+var paths = ['./src/bower_components/','./src/js/**/*.js','./src/css/**/*.css'];
 
 gulp.task('inject', function() {
     var sources = gulp.src(paths, {read: false});
